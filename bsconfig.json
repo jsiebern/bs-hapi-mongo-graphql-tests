@@ -1,0 +1,22 @@
+{
+    "name": "bs-hapi-mongo-graphql-tests",
+    "sources": [{
+        "dir": "src",
+        "subdirs": true
+    }],
+    "package-specs": [{
+        "module": "commonjs",
+        "in-source": true
+    }],
+    "suffix": ".bs.js",
+    "namespace": false,
+    "bsc-flags": [
+        "-bs-super-errors"
+    ],
+    "ppx-flags": [],
+    "bs-dependencies": [
+        "@glennsl/bs-json",
+        "reason-future"
+    ],
+    "refmt": 3
+}
