@@ -31,6 +31,8 @@ module SchemaType = {
   module JsType = {
     type t =
       | String
+      | Int
+      | Float
       | Boolean
       | Date;
 
@@ -38,6 +40,9 @@ module SchemaType = {
       switch (typ) {
       | String => %bs.raw
                   {|String|}
+      | Int
+      | Float => %bs.raw
+                 {|Number|}
       | Boolean => %bs.raw
                    {|Boolean|}
       | Date => %bs.raw

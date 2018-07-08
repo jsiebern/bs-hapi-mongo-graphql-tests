@@ -1,25 +1,26 @@
 {
-  "name": "bs-hapi-mongo-graphql-tests",
-  "version": "1.0.0",
-  "main": "index.js",
-  "repository": "https://github.com/jsiebern/bs-hapi-mongo-graphql-tests.git",
-  "author": "Jonathan Siebern <jsiebern88@gmail.com>",
-  "license": "MIT",
-  "scripts": {
-    "start": "nodemon --watch ./src --watch ./src -e js,graphql ./src/Test.bs.js",
-    "bsb": "bsb -make-world -w"
-  },
-  "dependencies": {
-    "@glennsl/bs-json": "^2.0.0",
-    "boom": "^7.2.0",
-    "bs-platform": "^3.2.0-alpha2",
-    "hapi": "^17.5.2",
-    "mongodb": "^3.1.1",
-    "mongoose": "^5.2.1",
-    "reason-future": "^2.2.1"
-  },
-  "devDependencies": {
-    "hapi-dev-errors": "^2.2.0",
-    "nodemon": "^1.17.5"
-  }
+    "name": "bs-hapi-mongo-graphql-tests",
+    "version": "1.0.0",
+    "main": "index.js",
+    "repository": "https://github.com/jsiebern/bs-hapi-mongo-graphql-tests.git",
+    "author": "Jonathan Siebern <jsiebern88@gmail.com>",
+    "license": "MIT",
+    "scripts": {
+        "start": "nodemon --watch ./src --watch ./src -e js,graphql ./src/Test.bs.js",
+        "bsb": "bsb -clean-world; bsb -make-world",
+        "clean": "bsb -clean-world"
+    },
+    "dependencies": {
+        "@glennsl/bs-json": "^2.0.0",
+        "boom": "^7.2.0",
+        "bs-platform": "^3.2.0-alpha2",
+        "hapi": "^17.5.2",
+        "mongodb": "^3.1.1",
+        "mongoose": "^5.2.1",
+        "reason-future": "^2.2.1"
+    },
+    "devDependencies": {
+        "hapi-dev-errors": "^2.2.0",
+        "nodemon": "^1.17.5"
+    }
 }

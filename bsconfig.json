@@ -13,7 +13,7 @@
     "bsc-flags": [
         "-bs-super-errors"
     ],
-    "ppx-flags": [],
+    "ppx-flags": ["./mongoose_ppx/_build/install/default/lib/ppx_bs_mongoose/ppx.exe\\ --as-ppx"],
     "bs-dependencies": [
         "@glennsl/bs-json",
         "reason-future"

@@ -15,25 +15,43 @@
 
    Hapi.Server.Instance.Info.(Js.log(info)); */
 
-Mongoose.Connection.connect("mongodb://127.0.0.1:27017");
-Mongoose.Connection.on(`connecting, () => Js.log("connecting to MongoDB..."));
-Mongoose.Connection.on(`connected, () => Js.log("MongoDB connected!"));
-Mongoose.Connection.on(`_open, () => Js.log("MongoDB connection opened!"));
+/* Mongoose.Connection.connect("mongodb://127.0.0.1:27017");
+   Mongoose.Connection.on(`connecting, () => Js.log("connecting to MongoDB..."));
+   Mongoose.Connection.on(`connected, () => Js.log("MongoDB connected!")); */
 
-module SchemaDef = {
-  type t;
-  [@bs.deriving jsConverter]
-  type def = {key: Mongoose.SchemaType.t};
-  type defJs = {. "key": Mongoose.SchemaType.t};
-  type defValues = {. "key": string};
-  let def = {
-    key: Mongoose.SchemaType.make(~_type=String, ~required=true, ()),
+module KeyModel = {
+  module SchemaDef = {
+    type t;
+    [@bs.deriving jsConverter]
+    type def = {
+      key: Mongoose.SchemaType.t,
+      num: Mongoose.SchemaType.t,
+    };
+    type defJs = {
+      .
+      "key": Mongoose.SchemaType.t,
+      "num": Mongoose.SchemaType.t,
+    };
+    type defValues = {
+      .
+      "key": string,
+      "num": int,
+    };
+    let def = {
+      key: Mongoose.SchemaType.make(~_type=String, ~required=true, ()),
+      num: Mongoose.SchemaType.make(~_type=Int, ()),
+    };
+    let modelName = "KeyModel";
   };
-  let modelName = "KeyTest";
+
+  module Schema = Mongoose.MakeSchema(SchemaDef);
+  module Model = Mongoose.MakeModel(SchemaDef);
+
+  let schema = Schema.schema;
+  let model = Model.setup(schema);
 };
 
-module Schema = Mongoose.MakeSchema(SchemaDef);
-module Model = Mongoose.MakeModel(SchemaDef);
+/* let model = Model.setup(Schema.schema);
+   Js.log(model |. Model.create({"key": "brotha"})); */
 
-let model = Model.setup(Schema.schema);
-Js.log(model |. Model.create({"key": "brotha"}));
+/* module KeyedModel = [%mongoose {key: String, num: Int}]; */

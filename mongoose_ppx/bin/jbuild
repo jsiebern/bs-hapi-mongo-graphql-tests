@@ -1,0 +1,9 @@
+(jbuild_version 1)
+
+(library
+ ((name ppx_bs_mongoose)
+  (public_name ppx_bs_mongoose)
+  (kind ppx_rewriter)
+  (libraries (menhirLib ocaml-migrate-parsetree ppx_tools_versioned.metaquot_406))
+  (preprocess (pps (ppx_tools_versioned.metaquot_406)))
+ ))

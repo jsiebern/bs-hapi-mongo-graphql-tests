@@ -1,0 +1,31 @@
+lib: [
+  "_build/install/default/lib/ppx_bs_mongoose/META" {"META"}
+  "_build/install/default/lib/ppx_bs_mongoose/opam" {"opam"}
+  "_build/install/default/lib/ppx_bs_mongoose/ppx_bs_mongoose__Helpers.cmi" {"ppx_bs_mongoose__Helpers.cmi"}
+  "_build/install/default/lib/ppx_bs_mongoose/ppx_bs_mongoose__Helpers.cmx" {"ppx_bs_mongoose__Helpers.cmx"}
+  "_build/install/default/lib/ppx_bs_mongoose/ppx_bs_mongoose__Helpers.cmt" {"ppx_bs_mongoose__Helpers.cmt"}
+  "_build/install/default/lib/ppx_bs_mongoose/Helpers.re" {"Helpers.re"}
+  "_build/install/default/lib/ppx_bs_mongoose/ppx_bs_mongoose.cmi" {"ppx_bs_mongoose.cmi"}
+  "_build/install/default/lib/ppx_bs_mongoose/ppx_bs_mongoose.cmx" {"ppx_bs_mongoose.cmx"}
+  "_build/install/default/lib/ppx_bs_mongoose/ppx_bs_mongoose.cmt" {"ppx_bs_mongoose.cmt"}
+  "_build/install/default/lib/ppx_bs_mongoose/ppx_bs_mongoose.ml-gen" {"ppx_bs_mongoose.ml-gen"}
+  "_build/install/default/lib/ppx_bs_mongoose/ppx_bs_mongoose__Ppx_mongoose.cmi" {"ppx_bs_mongoose__Ppx_mongoose.cmi"}
+  "_build/install/default/lib/ppx_bs_mongoose/ppx_bs_mongoose__Ppx_mongoose.cmx" {"ppx_bs_mongoose__Ppx_mongoose.cmx"}
+  "_build/install/default/lib/ppx_bs_mongoose/ppx_bs_mongoose__Ppx_mongoose.cmt" {"ppx_bs_mongoose__Ppx_mongoose.cmt"}
+  "_build/install/default/lib/ppx_bs_mongoose/ppx_mongoose.re" {"ppx_mongoose.re"}
+  "_build/install/default/lib/ppx_bs_mongoose/ppx_bs_mongoose__Utils.cmi" {"ppx_bs_mongoose__Utils.cmi"}
+  "_build/install/default/lib/ppx_bs_mongoose/ppx_bs_mongoose__Utils.cmx" {"ppx_bs_mongoose__Utils.cmx"}
+  "_build/install/default/lib/ppx_bs_mongoose/ppx_bs_mongoose__Utils.cmt" {"ppx_bs_mongoose__Utils.cmt"}
+  "_build/install/default/lib/ppx_bs_mongoose/Utils.re" {"Utils.re"}
+  "_build/install/default/lib/ppx_bs_mongoose/ppx_bs_mongoose.cma" {"ppx_bs_mongoose.cma"}
+  "_build/install/default/lib/ppx_bs_mongoose/ppx_bs_mongoose.cmxa" {"ppx_bs_mongoose.cmxa"}
+  "_build/install/default/lib/ppx_bs_mongoose/ppx_bs_mongoose.a" {"ppx_bs_mongoose.a"}
+  "_build/install/default/lib/ppx_bs_mongoose/ppx_bs_mongoose.cmxs" {"ppx_bs_mongoose.cmxs"}
+  "_build/install/default/lib/ppx_bs_mongoose/ppx_bs_mongoose.dune" {"ppx_bs_mongoose.dune"}
+]
+libexec: [
+  "_build/install/default/lib/ppx_bs_mongoose/ppx.exe" {"ppx.exe"}
+]
+doc: [
+  "_build/install/default/doc/ppx_bs_mongoose/README.md"
+]

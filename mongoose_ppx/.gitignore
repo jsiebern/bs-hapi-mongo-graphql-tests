@@ -1,0 +1,12 @@
+npm-debug.log
+.merlin
+yarn-error.log
+node_modules/
+_build
+_esybuild
+_esyinstall
+_release
+*.byte
+*.native
+mongoose_ppx.install
+.DS_Store
