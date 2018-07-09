@@ -65,7 +65,7 @@ module SchemaType = {
   let convert = (sType: t) =>
     Js.Obj.assign(
       sType |. toObj,
-      {"type": sType |. _type |. JsType.toRawType},
+      {"type": sType |. _typeGet |. JsType.toRawType},
     )
     |. toT;
 };
@@ -79,6 +79,8 @@ module type SchemaDefinition = {
   let def: def;
 
   let modelName: string;
+
+  type instanceType;
 };
 
 module MakeSchema = (SType: SchemaDefinition) => {
@@ -108,6 +110,13 @@ module MakeSchema = (SType: SchemaDefinition) => {
   let schema = create(defJs);
 };
 
+module ModelInstance = (SType: SchemaDefinition) => {
+  type t = SType.instanceType;
+
+  [@bs.get_index] external get : (t, string) => 'a = "";
+  let _id: t => string = (i: t) => i |. get("_id");
+};
+
 module MakeModel = (SType: SchemaDefinition) => {
   type t;
   [@bs.module "mongoose"]
@@ -115,5 +124,14 @@ module MakeModel = (SType: SchemaDefinition) => {
 
   let setup = (schema: SType.t) => createExternal(SType.modelName, schema);
 
-  [@bs.send] external create : (t, SType.defValues) => Js.Promise.t(t) = "";
+  [@bs.send]
+  external create : (t, SType.defValues) => Js.Promise.t(SType.instanceType) =
+    "";
+  [@bs.send]
+  external find : (t, Js.t({..})) => Js.Promise.t(array(SType.instanceType)) =
+    "";
+  [@bs.send]
+  external findOne :
+    (t, Js.t({..})) => Js.Promise.t(Js.Nullable.t(SType.instanceType)) =
+    "";
 };
