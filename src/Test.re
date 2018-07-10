@@ -56,28 +56,43 @@ module KeyModel = {
     let num: t => int = (i: t) => i |. get("num") |. int_of_float;
   };
 
+  module Query = {
+    include Mongoose.ModelQuery;
+
+    let key = (value: [> | `String(string) | `Rule(rule)]) =>
+      d("key", value);
+    let num = (value: [> | `Int(int) | `Float(float) | `Rule(rule)]) =>
+      d("num", value);
+  };
+
   let schema = Schema.schema;
   let model = Model.setup(schema);
 };
 
 FutureJs.fromPromise(
-  KeyModel.model |. KeyModel.Model.findOne({"key": "brotha"}),
+  KeyModel.model
+  |. KeyModel.Model.findOne(KeyModel.Query.(build([num(gt(1.3))]))),
   err => {
     Js.log(err);
     err |. Js.String.make;
   },
 )
-|. Future.map(x => x |. Belt.Result.getExn |. Js.Nullable.toOption)
+|. Future.mapOk(x => x |. Js.Nullable.toOption)
 |. Future.get(instance =>
-     KeyModel.Instance.(
-       switch (instance) {
-       | Some(instance) =>
-         Js.log(instance |. _id);
-         Js.log(instance |. key);
-         Js.log(instance |. num);
-       | None => Js.log("Model not found")
-       }
-     )
+     switch (instance |. Belt.Result.getExn) {
+     | exception e => Js.log(e)
+     | instance =>
+       Js.log("-----------------------");
+       KeyModel.Instance.(
+         switch (instance) {
+         | Some(instance) =>
+           Js.log(instance |. _id);
+           Js.log(instance |. key);
+           Js.log(instance |. num);
+         | None => Js.log("--> Model not found")
+         }
+       );
+     }
    );
 
 /* module KeyedModel = [%mongoose {key: String, num: Int}]; */

@@ -117,6 +117,64 @@ module ModelInstance = (SType: SchemaDefinition) => {
   let _id: t => string = (i: t) => i |. get("_id");
 };
 
+module ModelQuery = {
+  type t;
+
+  type polyType = [
+    | `Int(int)
+    | `String(string)
+    | `Float(float)
+    | `Bool(bool)
+    | `Rule(rule)
+  ]
+  and rule =
+    | Declaration(string, polyType)
+    | Selector(string, list(rule));
+
+  external castToT : 'a => t = "%identity";
+  external castToUnsafe : 'a => 'b = "%identity";
+
+  let build = (rules: list(rule)) => {
+    let rec innerBuild = rules => {
+      let rec toJs = rule =>
+        switch (rule) {
+        | Declaration(name, value) => (
+            name,
+            switch (value) {
+            | `Int(v) => Js.Json.number(v |. float_of_int) |. castToUnsafe
+            | `String(v) => Js.Json.string(v) |. castToUnsafe
+            | `Float(v) => Js.Json.number(v) |. castToUnsafe
+            | `Bool(v) => Js.Json.boolean(v) |. castToUnsafe
+            | `Rule(r) => innerBuild([r]) |. castToUnsafe
+            },
+          )
+        | Selector(name, rules) => (
+            name,
+            rules
+            |. Belt.List.map(rule => innerBuild([rule]))
+            |. Belt.List.toArray
+            |. Js.Json.array,
+          )
+        };
+      rules |. Belt.List.map(toJs) |. Js.Dict.fromList |. Js.Json.object_;
+    };
+    Js.log(rules |. innerBuild);
+    rules |. innerBuild |. castToT;
+  };
+
+  let d = (key, value) => Declaration(key, value);
+
+  /** Top Level Operators */
+  let or_ = (subFields: list(rule)) => Selector("$or", subFields);
+  let nor = (subFields: list(rule)) => Selector("$nor", subFields);
+
+  /** Lower Operators */
+  let gt = (gt: float) => `Rule(Declaration("$gt", `Float(gt)));
+
+  /** Default fields */
+  let _id = (id: string) => Declaration("_id", `String(id));
+};
+
 module MakeModel = (SType: SchemaDefinition) => {
   type t;
   [@bs.module "mongoose"]
@@ -128,10 +186,11 @@ module MakeModel = (SType: SchemaDefinition) => {
   external create : (t, SType.defValues) => Js.Promise.t(SType.instanceType) =
     "";
   [@bs.send]
-  external find : (t, Js.t({..})) => Js.Promise.t(array(SType.instanceType)) =
+  external find :
+    (t, ModelQuery.t) => Js.Promise.t(array(SType.instanceType)) =
     "";
   [@bs.send]
   external findOne :
-    (t, Js.t({..})) => Js.Promise.t(Js.Nullable.t(SType.instanceType)) =
+    (t, ModelQuery.t) => Js.Promise.t(Js.Nullable.t(SType.instanceType)) =
     "";
 };
