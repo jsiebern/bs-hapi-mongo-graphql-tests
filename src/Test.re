@@ -61,8 +61,7 @@ module KeyModel = {
 
     let key = (value: [> | `String(string) | `Rule(rule)]) =>
       d("key", value);
-    let num = (value: [> | `Int(int) | `Float(float) | `Rule(rule)]) =>
-      d("num", value);
+    let num = (value: int) => d("num", `Float(value |. float_of_int));
   };
 
   let schema = Schema.schema;
@@ -71,7 +70,13 @@ module KeyModel = {
 
 FutureJs.fromPromise(
   KeyModel.model
-  |. KeyModel.Model.findOne(KeyModel.Query.(build([num(gt(1.3))]))),
+  |. KeyModel.Model.findOne(
+       KeyModel.Query.(
+         build([
+           and_([num(2) |. gt, path("key.something", `String("brotha"))]),
+         ])
+       ),
+     ),
   err => {
     Js.log(err);
     err |. Js.String.make;

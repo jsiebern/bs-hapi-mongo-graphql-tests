@@ -118,6 +118,10 @@ module ModelInstance = (SType: SchemaDefinition) => {
 };
 
 module ModelQuery = {
+  module Cast = {
+    external toFloat : 'a => float = "%identity";
+  };
+
   type t;
 
   type polyType = [
@@ -162,17 +166,24 @@ module ModelQuery = {
     rules |. innerBuild |. castToT;
   };
 
-  let d = (key, value) => Declaration(key, value);
+  let d = (path, value) => Declaration(path, value);
 
   /** Top Level Operators */
   let or_ = (subFields: list(rule)) => Selector("$or", subFields);
   let nor = (subFields: list(rule)) => Selector("$nor", subFields);
+  let and_ = (subFields: list(rule)) => Selector("$and", subFields);
 
-  /** Lower Operators */
-  let gt = (gt: float) => `Rule(Declaration("$gt", `Float(gt)));
+  /** Lower Operators (Declaration Modifiers) */
+  let gt = (rule: rule) =>
+    switch (rule) {
+    | Declaration(name, value) =>
+      Declaration(name, `Rule(Declaration("$gt", value)))
+    | v => v
+    };
 
   /** Default fields */
   let _id = (id: string) => Declaration("_id", `String(id));
+  let path = (path: string, value: polyType) => Declaration(path, value);
 };
 
 module MakeModel = (SType: SchemaDefinition) => {
